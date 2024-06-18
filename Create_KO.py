@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 from window_portal import *
 import sys
 import os
-import sqlite3 as sl
+from sqlite3 import connect
 import time
 import docx
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -2511,7 +2511,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
         try:
             year=self.dateEdit_krz.currentText()
             self.count = 0
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             id = self.con_child_id()
             self.tema = []
             self.hid_work = []
@@ -2576,7 +2576,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def save_word_posts(self):
         try:
             year=self.dateEdit_krz.currentText()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             self.tema2 = [ ]
             self.hid_work2 = [ ]
             self.data2 = [ ]
@@ -2711,7 +2711,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def delete_post(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                 cursor = con.cursor()
                 cursor.execute(f""" DELETE FROM children_post WHERE id = {self.id_post} """)
@@ -2723,7 +2723,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def update_post_cili(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             tema = self.lineEdit_tema_2.text().replace("'","`")
             text = self.textEdit_form2.toPlainText().replace("'","`")
             data = self.dateEdit_form_2.text()
@@ -2816,7 +2816,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             number.reverse()
             self.lcdNumber_3.display(number[self.count])
 
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             self.textEdit_form2.setText(self.hid_work[self.count])
             self.lineEdit_tema_2.setText(self.tema[self.count])
             year, mounth, day = str(self.data[self.count]).split('.')
@@ -2837,7 +2837,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def show_post_update(self):
         try:
             self.count=0
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             id = self.con_child_id()
             self.tema=[]
             self.hid_work=[]
@@ -2909,7 +2909,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             text_forma1= self.textEdit_form_1.toPlainText().replace("'","`")
             text_cili = self.textEdit_form_2.toPlainText().replace("'","`")
             data = self.dateEdit_form.text()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                 cursor = con.cursor()
                 cursor.execute(f"INSERT INTO  children_post (tema, hid_work, data_edit, id_children) VALUES "
@@ -2932,7 +2932,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def con_child_id(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             text_name_combo = self.comboBox_childrean_all.currentText().replace(" (", " ").replace(")", "")
             dani_name = text_name_combo.split()
             if len(dani_name) == 3:
@@ -2956,7 +2956,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def delete_post_child_id(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             text_name_combo = self.comboBox_childrean_all.currentText().replace(" (", " ").replace(")","")
             dani_name = text_name_combo.split()
             if len(dani_name)==3:
@@ -2980,7 +2980,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             child_name=self.edit_child_name.text().replace("'","`")
             first_name, last_name, pobatkovi = child_name.split()
             unicalinist = self.edit_unical.text().replace("'","`")
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
 
             if unicalinist == '':
                 unicalinist='None'
@@ -3056,7 +3056,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def con_children_post_id(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             self.comboBox_childrean_all.clear()
             self.slovnuk_child={}
             with connect as con:
@@ -3080,7 +3080,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
         self.word=0
         self.textEdit_form_show_cili.clear()
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             id = self.comboBox_childrean_all.currentText()
             if self.post_update==1:
                 self.lcdNumber_11.display(self.slovnuk_child.get(id))
@@ -3097,7 +3097,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                     self.show_post_update()
                 else:
                     self.lcdNumber_2.display(count)
-                    connect = sl.connect('IRCdb.db')
+                    connect = connect('IRCdb.db')
                     with connect as con:
                         cursor = con.cursor()
                         cursor.execute(f" SELECT cili FROM children_post_cili WHERE  id_children={int(id_c)} ")
@@ -3157,7 +3157,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def delete_answer_anketa(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             # data_ko_search = self.dateEdit_2.text().split('.')
             # date = data_ko_search [ 2 ] + '-' + data_ko_search [ 1 ] + '-' + data_ko_search [ 0 ]
             # text = self.comboBox_KO.currentText()
@@ -3184,7 +3184,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                 self.tableWidget.removeRow(i)
             anketa_qestions=[]
             anketa_vidpovido=[]
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             text = None
             if x == 'result':
                 text = self.PIP.text()
@@ -3247,7 +3247,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def save_anketa_result(self):
         try:
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             first_name, second_name, pobatkovi = self.PIP.text().split()
             data_birth_day = self.dateEdit.text()
             date_edit = datetime.date.today()
@@ -3285,7 +3285,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def oputyvana_GO(self):
         try:
             self.text = self.comboBox_qestions.currentText().replace('шкл.', 'Шкільний вік').replace('дош.','Дошкільний вік').replace(' ', '_') + 'Anketa'
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                 cursor = con.cursor()
                 cursor.execute(f"SELECT putana FROM  {self.text} ;")
@@ -3325,7 +3325,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             url_user = self.edit_URL.text()
             metoduk = self.comboBox_site.currentText()
 
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
 
             with connect as con:
                     cursor = con.cursor()
@@ -3428,7 +3428,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             password_user = self.password.text()
             url_user = self.edit_URL.text()
             id = self.id_children_for_db()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
 
             with connect as con:
                     cursor = con.cursor()
@@ -3513,7 +3513,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
         login = None
         password = None
         option = webdriver.FirefoxOptions()
-        connect = sl.connect('IRCdb.db')
+        connect = connect('IRCdb.db')
         kompetencia_list = [ ]
 
         try:
@@ -3590,7 +3590,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
         login = None
         password = None
         option = webdriver.FirefoxOptions()
-        connect = sl.connect('IRCdb.db')
+        connect = connect('IRCdb.db')
         potrebu_list = [ ]
 
         try:
@@ -3660,7 +3660,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
         login = None
         password = None
         option = webdriver.FirefoxOptions()
-        connect = sl.connect('IRCdb.db')
+        connect = connect('IRCdb.db')
         recomendacii_list = [ ]
 
         try:
@@ -4106,7 +4106,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def delete_child(self):
         try:
             id = self.id_children_for_db()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                     cursor = con.cursor()
                     cursor.execute(f'SELECT first_name, last_name, pobatkovi, birth_day, data_edit FROM children WHERE id = {int(id)};')
@@ -4133,7 +4133,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def update_dani_children(self):
         try:
                 id = self.id_children_for_db()
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 first_name = self.first_name.text().replace("'", "`").replace(" ", "")
                 second_name = self.last_name.text().replace("'", "`").replace(" ", "")
                 pobatkovi = self.pobatkovi.text().replace("'", "`").replace(" ", "")
@@ -4242,7 +4242,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             # first_name, last_name, pobatkovi = self.comboBox_KO.currentText().split()
             name_all = self.comboBox_KO.currentText().replace("/", " ")
             first_name, last_name, pobatkovi, birth, date_edit = name_all.split()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             # data_ko_search = self.dateEdit_2.text().split('.')
             # data_birth = data_ko_search[0] + '.' + data_ko_search[1] + '.' + data_ko_search[2]
             # data_edit = data_ko_search [ 2 ] + '-' + data_ko_search [ 1 ] + '-' + data_ko_search [ 0 ]
@@ -4269,7 +4269,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def all_dani_children(self):
         try:
                 id_child = self.id_children_for_db()
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 with connect as con:
                         cursor = con.cursor()
                         cursor.execute(f'SELECT first_name, last_name, pobatkovi, birth_day, povtorna_ko, metoduka, zaklad, perent, data_edit from children WHERE id={id_child};')
@@ -4325,7 +4325,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                 data = data_ko_search [ 2 ] + '-' + data_ko_search [ 1 ] + '-' + data_ko_search [ 0 ]
                 data_birth = data_ko_search [ 0 ] + '.' + data_ko_search [ 1 ] + '.' + data_ko_search [ 2 ]
 
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 with connect as con:
                         cursor = con.cursor()
                         # if self.Povtorna_KO_2.isChecked() and self.label_filter_2.isChecked():
@@ -4363,7 +4363,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
 
     def table_show_ko(self, x):
         try:
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 if x == '+':
                         self.next_previos += 1
                 elif x == '-':
@@ -4486,7 +4486,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
             data = data_ko_search [ 2 ] + '-' + data_ko_search [ 1 ] + '-' + data_ko_search [ 0 ]
             data_birth = data_ko_search [ 0 ] + '.' + data_ko_search [ 1 ] + '.' + data_ko_search [ 2 ]
 
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                     cursor = con.cursor()
                     if self.Pervuna_KO.isChecked() and self.label_filter_2.isChecked():
@@ -4525,7 +4525,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def search_KO(self):
         try:
             self.comboBox_KO.clear()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             first_name = self.first_name.text().replace("'", "`")
             second_name = self.last_name.text().replace("'", "`")
             pobatkovi = self.pobatkovi.text().replace("'", "`")
@@ -4671,7 +4671,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                                 age = self.Doschilnul.text().replace(" ", "_")
                         text_kompetencia = self.comboBox.currentText().replace('шкл.', 'Шкільний вік').replace('дош.','Дошкільний вік').replace(' ', '_') + 'qestions'
                         kontacktu = self.Perent_Kontakt.text()
-                        connect = sl.connect('IRCdb.db')
+                        connect = connect('IRCdb.db')
                         with connect as con:
                                 cursor = con.cursor()
                                 cursor.execute(f"SELECT date('now');")
@@ -4759,7 +4759,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                         self.tableWidget.setItem(0, 0, QTableWidgetItem('Дані збережено!'))
                 elif self.filter_number == 1:
                         id = self.id_children_for_db()
-                        connect = sl.connect('IRCdb.db')
+                        connect = connect('IRCdb.db')
 
                         if self.next_previos == 0:
 
@@ -4833,7 +4833,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def kompetencia_metoduk(self):
         try:
                 text_kompetencia = self.comboBox.currentText().replace('шкл.', 'Шкільний вік').replace('дош.','Дошкільний вік').replace(' ', '_') + 'qestions'
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 with connect as con:
                         cursor = con.cursor()
                         cursor.execute(f'SELECT COUNT(1) FROM  {text_kompetencia};')
@@ -4868,7 +4868,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
     def con_nazva_metoduk(self):
         try:
             self.comboBox.clear()
-            connect = sl.connect('IRCdb.db')
+            connect = connect('IRCdb.db')
             with connect as con:
                     cursor = con.cursor()
                     cursor.execute('SELECT name from sqlite_master where type= "table"')
@@ -4894,7 +4894,7 @@ f"    border-radius: {2*suma3/Ui_MainWindow.number}%;\n"
                     self.minus_number = 1
             if self.menu_right_count == 0:
                 self.comboBox_qestions.clear()
-                connect = sl.connect('IRCdb.db')
+                connect = connect('IRCdb.db')
                 with connect as con:
                     cursor = con.cursor()
                     cursor.execute('SELECT name from sqlite_master where type= "table"')
